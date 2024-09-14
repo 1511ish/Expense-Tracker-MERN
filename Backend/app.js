@@ -13,7 +13,8 @@ const premiumFeatureRoutes = require('./routes/premiumFeature');
 const passwordRoutes = require('./routes/password');
 // Custom CORS configuration
 const corsOptions = {
-    origin: process.env.FRONTEND_BASE_URL,
+    // origin: process.env.FRONTEND_BASE_URL,
+    origin: '*',
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
