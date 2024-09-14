@@ -7,7 +7,7 @@ const TableBody = ({ expenses, setExpenses ,onEdit}) => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/expense/delete-expense/${id}`, {
+      await axios.delete(`${process.env.BACKEND_BASE_URL}/expense/delete-expense/${id}`, {
         headers: { 'Authorization': token }
       });
       // Update the state to remove the deleted expense

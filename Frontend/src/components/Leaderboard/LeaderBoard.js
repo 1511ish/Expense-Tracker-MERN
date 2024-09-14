@@ -11,7 +11,7 @@ const Leaderboard = () => {
       try {
         // Assuming you're fetching data from an API or another source
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/premium/showLeaderBoard', { headers: { 'Authorization': token } });
+        const response = await axios.get(`${process.env.BACKEND_BASE_URL}/premium/showLeaderBoard`, { headers: { 'Authorization': token } });
         const result = response.data;
         setData(result);
       } catch (error) {

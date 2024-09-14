@@ -34,7 +34,7 @@ const SignInSignUp = ({ afterLogin }) => {
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/user/signup", signUpData);
+      const response = await axios.post(`${process.env.BACKEND_BASE_URL}/user/signup`, signUpData);
       if (response.status === 201) {
         alert("User signed up successfully.");
         setRightPanelActive(false);
@@ -55,7 +55,7 @@ const SignInSignUp = ({ afterLogin }) => {
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/user/login", signInData);
+      const response = await axios.post(`${process.env.BACKEND_BASE_URL}/user/login`, signInData);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("isPremium", response.data.isPremium);
       alert(response.data.message);
@@ -69,19 +69,19 @@ const SignInSignUp = ({ afterLogin }) => {
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
-    // if (signInData.email) {
-    //   try {
-    //     const response = await axios.post("password/forgotpassword", {
-    //       email: signInData.email,
-    //     });
-    //     alert(response.data.message);
-    //   } catch (err) {
-    //     console.log(err);
-    //     alert("Failed to send reset password email.");
-    //   }
-    // } else {
-    //   alert("Please fill in the email input first before pressing reset password!");
-    // }
+    if (signInData.email) {
+      try {
+        const response = await axios.post(`${process.env.BACKEND_BASE_URL}/password/forgotpassword`, {
+          email: signInData.email,
+        });
+        alert(response.data.message);
+      } catch (err) {
+        console.log(err);
+        alert("Failed to send reset password email.");
+      }
+    } else {
+      alert("Please fill in the email input first before pressing reset password!");
+    }
   };
 
   return (

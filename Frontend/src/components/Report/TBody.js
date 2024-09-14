@@ -3,9 +3,7 @@ import ReportTableRow from "./TRow";
 import styles from "./report.module.css";
 
 const ReportTableBody = ({ expenses, TotalAmount, onDownload, onRecent }) => {
-    function downloadReport(e) {
-        e.preventDefault();
-    }
+
     return (
         <tbody id="tbody">
             {expenses.map((expense, index) => (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Route, Routes, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './components/UI/Navbar/Navbar';
 import Form from './components/Expense/Form';
@@ -22,7 +22,7 @@ const App = () => {
   const getExpenses = async () => {
     try {
       const token = localStorage.getItem('token');
-      axios.get(`http://localhost:5000/expense/get-expenses?page=${page}&pageSize=${itemsPerPage}`,
+      axios.get(`${process.env.BACKEND_BASE_URL}/expense/get-expenses?page=${page}&pageSize=${itemsPerPage}`,
         { headers: { 'Authorization': token } })
         .then(({ data: { allExpenses, ...pageData } }) => {
           setExpenses(allExpenses);
@@ -37,7 +37,7 @@ const App = () => {
   const checkPremiumStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/user/premiumstatus', {
+      const response = await axios.get(`${process.env.BACKEND_BASE_URL}/user/premiumstatus`, {
         headers: { "Authorization": token }
       });
       setIsPremiumUser(response.data.isPremium);
@@ -63,13 +63,13 @@ const App = () => {
     const token = localStorage.getItem('token');
     try {
       if (expenseToEdit) {
-        const response = await axios.put(`http://localhost:5000/expense/update-expense/${expense.id}`,
+        const response = await axios.put(`${process.env.BACKEND_BASE_URL}/update-expense/${expense.id}`,
           expense, { headers: { 'Authorization': token } });
         const edited_exp = response.data.expense;
         setExpenses(expenses.map(exp => exp._id === edited_exp._id ? edited_exp : exp));
         setExpenseToEdit(null);
       } else {
-        const response = await axios.post('http://localhost:5000/expense/add-expense',
+        const response = await axios.post(`${process.env.BACKEND_BASE_URL}/expense/add-expense`,
           expense, { headers: { 'Authorization': token } });
         setExpenses([...expenses, response.data.newExpenseDetail]);
       }
