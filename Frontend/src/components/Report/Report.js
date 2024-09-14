@@ -19,7 +19,7 @@ const Report = () => {
 
   const dailyFormHandler = async (event) => {
     event.preventDefault();
-    const response = await axios.get(`${process.env.BACKEND_BASE_URL}/premium/dailyReport/${day}`, { headers: { 'Authorization': token } });
+    const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/premium/dailyReport/${day}`, { headers: { 'Authorization': token } });
     const expense = response.data.allExpenses;
     let total = 0;
     for (let obj of expense) {
@@ -31,7 +31,7 @@ const Report = () => {
 
   const monthlyFormHandler = async (event) => {
     event.preventDefault();
-    const response = await axios.get(`${process.env.BACKEND_BASE_URL}/premium/monthlyReport/${month}`, { headers: { 'Authorization': token } });
+    const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/premium/monthlyReport/${month}`, { headers: { 'Authorization': token } });
     const expense = response.data.allExpenses;
     let total = 0;
     for (let obj of expense) {
@@ -51,7 +51,7 @@ const Report = () => {
 
   const downloadDailyReport = async () => {
     try {
-      const response = await axios.get(`${process.env.BACKEND_BASE_URL}/premium/download/${day}`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/premium/download/${day}`, {
         headers: { 'Authorization': token },
       });
       const fileURL = response.data.fileUrl;
@@ -66,7 +66,7 @@ const Report = () => {
 
   const downloadMonthlyReport = async () => {
     try {
-      const response = await axios.get(`${process.env.BACKEND_BASE_URL}/premium/download/${month}`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/premium/download/${month}`, {
         headers: { 'Authorization': token },
       });
       const fileURL = response.data.fileUrl;
@@ -81,7 +81,7 @@ const Report = () => {
 
   const recentlyDownloadedReport = async () => {
     try {
-      const response = await axios.get(`${process.env.BACKEND_BASE_URL}/premium/get-downlodedFileUrls`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/premium/get-downlodedFileUrls`, {
         headers: { 'Authorization': token },
       });
       setRecentlyDownloadedFiles(response.data.fileURL);

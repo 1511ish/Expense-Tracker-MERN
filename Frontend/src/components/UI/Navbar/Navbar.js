@@ -32,7 +32,7 @@ const Navbar = ({ onLogout, isPremiumUser }) => {
     try {
       setIsLoading(true); // Start loading
       // Fetch the order and key for the Razorpay payment
-      const response = await axios.get(`${process.env.BACKEND_BASE_URL}/purchase/premiummembership`, {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/purchase/premiummembership`, {
         headers: { "Authorization": token }
       });
 
@@ -42,7 +42,7 @@ const Navbar = ({ onLogout, isPremiumUser }) => {
         handler: async function (response) {
           try {
             // Update the transaction status on successful payment
-            const res = await axios.post(`${process.env.BACKEND_BASE_URL}/purchase/updatetransactionstatus`, {
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/purchase/updatetransactionstatus`, {
               order_id: options.order_id,
               payment_id: response.razorpay_payment_id
             }, { headers: { "Authorization": token } });
@@ -67,7 +67,7 @@ const Navbar = ({ onLogout, isPremiumUser }) => {
       rzpl.on('payment.failed', async function (response) {
         console.log(response);
         try {
-          await axios.post(`${process.env.BACKEND_BASE_URL}/purchase/updatefailedtransactionstatus`, {
+          await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/purchase/updatefailedtransactionstatus`, {
             order_id: options.order_id,
             payment_id: response.razorpay_payment_id,
           }, { headers: { "Authorization": token } });

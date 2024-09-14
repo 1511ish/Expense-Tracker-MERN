@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-// import "./SignInSignUp.module.css";
 import styles from "./SignInSignUp.module.css";
 
 const SignInSignUp = ({ afterLogin }) => {
+
   const [rightPanelActive, setRightPanelActive] = useState(false);
   const [signUpData, setSignUpData] = useState({
     name: "",
@@ -34,7 +34,7 @@ const SignInSignUp = ({ afterLogin }) => {
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.BACKEND_BASE_URL}/user/signup`, signUpData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/user/signup`, signUpData);
       if (response.status === 201) {
         alert("User signed up successfully.");
         setRightPanelActive(false);
@@ -55,7 +55,7 @@ const SignInSignUp = ({ afterLogin }) => {
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.BACKEND_BASE_URL}/user/login`, signInData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/user/login`, signInData);
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("isPremium", response.data.isPremium);
       alert(response.data.message);
@@ -71,7 +71,7 @@ const SignInSignUp = ({ afterLogin }) => {
     e.preventDefault();
     if (signInData.email) {
       try {
-        const response = await axios.post(`${process.env.BACKEND_BASE_URL}/password/forgotpassword`, {
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/password/forgotpassword`, {
           email: signInData.email,
         });
         alert(response.data.message);
