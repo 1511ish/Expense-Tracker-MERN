@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './components/UI/Navbar/Navbar';
 import Form from './components/Expense/Form';
@@ -48,7 +48,6 @@ const App = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      // console.log(itemsPerPage);
       getExpenses();
     }
   }, [isLoggedIn, itemsPerPage, page]);

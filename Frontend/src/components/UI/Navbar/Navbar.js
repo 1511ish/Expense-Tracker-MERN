@@ -113,7 +113,5 @@ const Navbar = ({ onLogout, isPremiumUser }) => {
   );
 };
 
-export default Navbar;
-
-
+export default Navbar; 
 
