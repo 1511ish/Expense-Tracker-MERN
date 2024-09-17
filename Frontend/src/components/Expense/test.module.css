@@ -1,5 +1,5 @@
 * {
-    padding: 0% ;
+    padding: 0%;
     margin: 0%;
     user-select: none;
 }
@@ -54,14 +54,16 @@ img {
     flex-direction: column;
     height: 87vh;
     padding: 3% 3% 3%;
-    width:100%;
+    width: 100%;
     /* border: 1px solid red; */
+    justify-content: space-around;
+    overflow: scroll;
 }
 
 .expense_form {
     background: #57738D;
     border-radius: 10px;
-    height: 80px;
+    height: 100px !important;
     padding: 0px 30px;
     display: flex;
     flex-direction: row;
@@ -90,7 +92,8 @@ form input {
     width: 150px;
     /* border: 5px solid red; */
 }
-.expense_form input{
+
+.expense_form input {
     padding: 8px 8px;
     margin: 0;
     border-radius: 0px 10px 10px 0px;
@@ -100,26 +103,37 @@ form input {
     font-size: 100%;
     color: black;
 }
+
 .expense_form div{
     display: flex;
 }
+.expense_form div div {
+    padding-right: 8px;
+}
 
 #rowsPerPage {
-    border-radius: 10px 10px 10px 10px;
-    background-color: rgb(39, 47, 62);
-    color: #fff;
-    padding: 8px 8px;
-    ;
+
 }
 
-#rowsPerPage:hover {
+/* #rowsPerPage:hover {
     background: #fff;
     color: #57738D;
-}
+} */
 
 .options {
-    padding: 7px 8px;
-    border-radius: 0px 10px 10px 0px;
+    border-radius: 10px;
+    /* background-color: rgb(39, 47, 62); */
+    /* color: #fff; */
+    padding: 8px 8px;
+    border: rgb(39, 47, 62);
+    font-size: 90%;
+}
+.options option{
+    font-size: 100%;
+}
+.options:hover{
+    background: #fff;
+    color: #57738D;
 }
 
 
@@ -136,6 +150,9 @@ form input {
     font-size: 17px;
     text-transform: uppercase;
     transition: transform 80ms ease-in;
+
+    width: 200px;
+    margin: 0;
 }
 
 
@@ -158,7 +175,7 @@ form input {
     font-size: 20px;
     border-collapse: collapse;
     border-radius: 10px !important;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 th,
@@ -212,9 +229,10 @@ th {
 }
 
 /* pagination */
-#pagination{
+#pagination {
     margin-top: 10px;
 }
+
 #pagination button {
     background: #57738D;
     color: #fff;
@@ -222,7 +240,7 @@ th {
     border-radius: 10px;
     border: 1px solid #fff;
     cursor: pointer;
-    margin:1px;
+    margin: 1px;
 }
 
 #pagination button:hover {
@@ -237,9 +255,126 @@ th {
     pointer-events: none;
 }
 
-.main-content{
+.main-content {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
     align-items: center;
+}
+
+
+@media only screen and (max-width: 1240px){
+    .expense_form label{
+        display: none;
+    }
+    .expense_form input{
+        border-radius: 10px;
+        padding-left: 15px;
+    }
+    .expense_form div div .options {
+        width: 150px;
+        border-radius: 10px;
+    }
+}
+
+@media only screen and (max-width: 850px){
+    .expense_form{
+        padding: 5px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .expense_form div {
+        display: flex;
+        flex-direction: column;
+        width: 100% !important;
+        margin-bottom: 10px !important;
+    }
+
+    .expense_form {
+        flex-direction: column !important;
+        height: auto !important;
+        padding: 15px;
+    }
+
+    .expense_form div div {
+        padding-right: 0px;
+    }
+
+    form label,
+    form input,
+    .options {
+        /* width: 100% !important; */
+        text-align: left !important;
+        margin-bottom: 0px !important;
+    }
+
+    form input,
+    .options {
+        /* width: calc(100% - 20px) !important; */
+        width: 100% !important;
+        font-size: 16px !important;
+    }
+
+    form label {
+        /* border-radius: 10px 10px 0px 0px !important; */
+        display: none;
+    }
+
+    form input {
+        border-radius: 10px !important;
+    }
+
+    form div div .options {
+        border-radius: 10px !important;
+    }
+
+    #add {
+        width: 100%;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+}
+
+/* Responsive design for mobile phones */
+@media only screen and (max-width: 600px) {
+    .expense_form{
+        padding: 10px;
+    }
+
+    form input,
+    .options {
+        width: 100%;
+        font-size: 14px !important;
+        padding: 10px;
+    }
+
+    #add {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+
+    .expenseTable {
+        font-size: 17px !important;
+    }
+
+    .delete_btn,
+    .edit_btn {
+        font-size: 10px;
+        font-weight: bold;
+        padding: 8px 14px;
+        margin: 0px 5px;
+        border-radius: 20px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: transform 80ms ease-in;
+        cursor: pointer;
+    }
+
+    th {
+        padding: 6px !important;
+    }
 }

@@ -4,10 +4,6 @@
     user-select: none;
 }
 
-h4 {
-    color: red;
-}
-
 #table-container img {
     height: 40px;
 }
@@ -33,7 +29,7 @@ h4 {
 }
 
 
-table {
+.leaderboard {
     width: 100%;
     font-size: 23px !important;
     border-collapse: collapse;
@@ -60,17 +56,9 @@ td {
 
 th {
     padding: 12px;
-    font-size: 20px !important;
+    /* font-size: 20px !important; */
     background-color: #57738D;
     color: #FFFF;
-}
-
-/* pagination */
-#pagination button {
-    background: #57738D;
-    color: #fff;
-    padding: 15px;
-    border-radius: 50px;
 }
 
 .trophy {
@@ -92,9 +80,22 @@ th {
 }
 
 #rzp-button1 {
-    /* pointer-events: none; */
-    /* cursor: not-allowed; */
     display: flex;
     align-items: center;
     background-color: #f3f3f3;
+}
+
+
+@media only screen and (max-width: 600px){
+    .leaderboard{
+      font-size: 17px !important;
+    }
+
+    h3{
+        font-size: large !important;
+    }
+    td{
+        padding: 6px 12px !important;
+    }
+
 }

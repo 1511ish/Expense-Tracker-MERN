@@ -1,5 +1,4 @@
-#navbar {
-    /* background-color: #4CAF50; */
+/* #navbar {
     background-color: #57738D;
     display: flex;
     justify-content: space-between;
@@ -16,8 +15,6 @@
 #navbar ul li {
     list-style: none;
     padding: 12px 24px;
-    /* height: 50px; */
-    /* background-color: rgb(245, 245, 146); */
     background: rgb(39, 47, 62);
     border-radius: 10px;
     color: #fff;
@@ -38,4 +35,171 @@
 
 .logo{
     height: 70px;
+} */
+
+
+/* @media only screen and (max-width: 852px){
+    #navbar{
+        font-size: 80%;
+    }   
+    #navbar ul li{
+        padding: 8px 14px;
+    }
+    .logo{
+        height: 50px;
+    }
+} */
+
+
+
+
+
+/* General Navbar Styles */
+#navbar {
+    background-color: #57738D;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    position: relative;
+}
+
+@media only screen and (max-width: 872px) {
+    body {
+        font-size: 90%;
+    }
+}
+
+#navbar ul {
+    display: flex;
+    padding: 0px 12px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+#navbar ul li {
+    list-style: none;
+    padding: 12px 24px;
+    background: rgb(39, 47, 62);
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+}
+
+#navbar ul li:hover {
+    background: #fff;
+    color: rgb(39, 47, 62);
+}
+
+.crown_icon {
+    color: #FFC434;
+}
+
+.medal-icon {
+    height: 35px;
+}
+
+.logo {
+    height: 70px;
+}
+
+.hamburger {
+    display: none;
+}
+
+.fullNav {
+    background-color: #57738D;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 10px; */
+    position: relative;
+    width: 100%;
+}
+
+nav a {
+    margin: 0px;
+}
+
+/* Hide the navbar menu in mobile view */
+@media (max-width: 768px) {
+
+    .hamburger {
+        display: block;
+        cursor: pointer;
+        font-size: 27px;
+        color: white;
+        margin-right: 15px;
+    }
+
+    .fullNav {
+        width: 0px;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #57738D;
+        overflow-x: hidden;
+        transition: 0.5s;
+        z-index: 1000;
+        flex-direction: column;
+        padding: 0px;
+    }
+    /* Side navigation (initially hidden) */
+    .fullNav ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        padding-top: 60px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .fullNav ul li {
+        padding: 16px;
+        font-size: 18px;
+        color: white;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+    }
+
+    .fullNav ul a {
+        width: 100%;
+        margin: 0px !important;
+    }
+
+    .fullNav ul li {
+        width: 100%;
+        margin: 2px 0px 2px 0px !important;
+    }
+
+    /* Open side-nav */
+    .open {
+        width: 250px;
+    }
+
+    /* Overlay for the rest of the screen when nav is open */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 5;
+    }
+
+    /* Adjust nav z-index to be on top of everything else */
+    .nav {
+        z-index: 10;
+    }
+}
+
+@media (max-width: 480px){
+    .logo {
+        height: 42px;
+    }
 }
