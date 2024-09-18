@@ -105,7 +105,7 @@ const Report = () => {
       {showRecentlyReports && (
         <>
           <div className={styles.backdrop} onClick={() => setShowRecentlyReports(false)}></div>
-          <Card className={`${styles['recently-reports-card']}`}>
+          <Card className={`${styles['recently_reports_card']}`}>
             <h2>Recently Downloaded Reports</h2>
             <ul className={`${styles['recently-reports']}`}>
               {recentlyDownloadedFiles.map((file, index) => (

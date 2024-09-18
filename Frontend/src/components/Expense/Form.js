@@ -34,7 +34,7 @@ const Form = ({ onSubmit, expenseToEdit, setItemsPerPage }) => {
           id={styles.rowsPerPage}
           onChange={(e) => setItemsPerPage(e.target.value)}
         >
-          <option value="" disabled className={styles.rows}>Row Per Page</option> {/* Default label */}
+          <option value="1" className={styles.rows}>Row Per Page</option> {/* Default label */}
           <option value="1" className={styles.rows}>1</option>
           <option value="2" className={styles.rows}>2</option>
           <option value="3" className={styles.rows}>3</option>
@@ -69,6 +69,7 @@ const Form = ({ onSubmit, expenseToEdit, setItemsPerPage }) => {
         <select className={styles.options} id={styles.options} name="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}>
+          <option value="others" className={styles.category}>Choose Category</option>
           <option value="movie" className={styles.category}>Movie</option>
           <option value="food" className={styles.category}>Food</option>
           <option value="fuel" className={styles.category}>Fuel</option>

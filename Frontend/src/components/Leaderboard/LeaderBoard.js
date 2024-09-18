@@ -25,7 +25,7 @@ const Leaderboard = () => {
   return (
     <div id={styles['table-container']}>
       <h3>Leaderboard <i className={`fa-solid fa-trophy ${styles.trophy}`}></i></h3>
-      <table>
+      <table className={`${styles.leaderboard}`}>
         <thead>
           <tr>
             <th>Rank</th>

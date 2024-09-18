@@ -4,6 +4,11 @@
     user-select: none;
 }
 
+body{
+    height: 100vh;
+    background-color: #f3f3f3;
+}
+
 h4 {
     color: red;
 }
@@ -57,13 +62,13 @@ img {
     width: 100%;
     /* border: 1px solid red; */
     justify-content: space-around;
-    overflow: scroll;
 }
 
 .expense_form {
     background: #57738D;
     border-radius: 10px;
-    height: 100px !important;
+    min-height: 80px;
+    /* max-height: 80px; */
     padding: 0px 30px;
     display: flex;
     flex-direction: row;
@@ -294,6 +299,7 @@ th {
 
     .expense_form {
         flex-direction: column !important;
+        min-height: auto;
         height: auto !important;
         padding: 15px;
     }
@@ -376,5 +382,19 @@ th {
 
     th {
         padding: 6px !important;
+    }
+}
+
+@media only screen and (max-width: 480px){
+    .expenseTable td{
+        text-align: left;
+        padding: 6px 6px !important;
+        min-width: 100px;
+    }
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
     }
 }
