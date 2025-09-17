@@ -101,11 +101,13 @@ exports.updateTransactionStatus = async (req, res, next) => {
         user.ispremiumuser = true;
         await user.save(); 
 
+        console.log("after premium: ", user);
+
         const order = await Order.findOne({ order_id });
         if (order) {
             // Update the order with payment details
             order.payment_id = payment_id;
-            order.status = "Successful"; // Corrected typo
+            order.status = "COMPLETED"; // Corrected typo
             await order.save();
 
             // Generate access token with the updated user premium status
@@ -166,5 +168,7 @@ exports.updateFailedTransactionStatus = async (req, res, next) => {
 
 
 function generateAccessToken(id, ispremiumuser) {
-    return jwt.sign({ userId: id, isPremium: ispremiumuser }, process.env.Secreat_Key);
+    return jwt.sign({ userId: id, isPremium: ispremiumuser }, process.env.JWT_SECRET_Key); 
 }
+
+console.log()

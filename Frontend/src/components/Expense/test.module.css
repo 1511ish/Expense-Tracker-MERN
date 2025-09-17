@@ -4,7 +4,7 @@
     user-select: none;
 }
 
-body{
+body {
     height: 100vh;
     background-color: #f3f3f3;
 }
@@ -55,7 +55,7 @@ img {
 .container {
     display: flex;
     align-items: center;
-    background-color: #f3f3f3;
+    /* background-color: #f3f3f3; */
     flex-direction: column;
     height: 87vh;
     padding: 3% 3% 3%;
@@ -109,16 +109,15 @@ form input {
     color: black;
 }
 
-.expense_form div{
+.expense_form div {
     display: flex;
 }
+
 .expense_form div div {
     padding-right: 8px;
 }
 
-#rowsPerPage {
 
-}
 
 /* #rowsPerPage:hover {
     background: #fff;
@@ -133,10 +132,12 @@ form input {
     border: rgb(39, 47, 62);
     font-size: 90%;
 }
-.options option{
+
+.options option {
     font-size: 100%;
 }
-.options:hover{
+
+.options:hover {
     background: #fff;
     color: #57738D;
 }
@@ -192,7 +193,6 @@ td {
 td {
     padding: 8px 12px;
     text-align: left;
-    background-color: #f3f3f3;
 }
 
 th {
@@ -269,22 +269,36 @@ th {
 }
 
 
-@media only screen and (max-width: 1240px){
-    .expense_form label{
+/* light theme */
+.light {
+    background-color: #fff;
+    color: #000;
+}
+
+.dark {
+    background-color: #2b2b2b;
+    color: #fff;
+}
+
+
+@media only screen and (max-width: 1240px) {
+    .expense_form label {
         display: none;
     }
-    .expense_form input{
+
+    .expense_form input {
         border-radius: 10px;
         padding-left: 15px;
     }
+
     .expense_form div div .options {
         width: 150px;
         border-radius: 10px;
     }
 }
 
-@media only screen and (max-width: 850px){
-    .expense_form{
+@media only screen and (max-width: 850px) {
+    .expense_form {
         padding: 5px;
     }
 }
@@ -345,7 +359,7 @@ th {
 
 /* Responsive design for mobile phones */
 @media only screen and (max-width: 600px) {
-    .expense_form{
+    .expense_form {
         padding: 10px;
     }
 
@@ -385,18 +399,16 @@ th {
     }
 }
 
-@media only screen and (max-width: 480px){
-    .expenseTable td{
+@media only screen and (max-width: 480px) {
+    .expenseTable td {
         text-align: left;
         padding: 6px 6px !important;
         min-width: 100px;
     }
+
     .table-container {
         width: 100%;
         overflow-x: auto;
         overflow-y: auto;
-    }
-    .expenseTable{
-        /* -webkit-overflow-scrolling: touch; */
     }
 }

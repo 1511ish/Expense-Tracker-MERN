@@ -117,15 +117,23 @@
 
 
 
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './navbar.module.css';
 import axios from 'axios';
+import { logout, setPremium } from "../../../context/slices/authSlice";
+import { toggleTheme } from "../../../context/slices/themeSlice";
+import { useSelector, useDispatch } from 'react-redux';
 
-const Navbar = ({ onLogout, isPremiumUser }) => {
+
+const Navbar = () => {
+  const { theme } = useSelector((state) => state.theme);
+  const { isPremiumUser } = useSelector((state) => state.auth);
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // State for loading
   const [razorpayLoaded, setRazorpayLoaded] = useState(false); // State for Razorpay script load
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Load Razorpay script dynamically
   useEffect(() => {
@@ -140,7 +148,6 @@ const Navbar = ({ onLogout, isPremiumUser }) => {
       document.body.removeChild(script);
     };
   }, []);
-
   const handlePremiumClick = async () => {
     const token = localStorage.getItem('token');
 
@@ -170,6 +177,7 @@ const Navbar = ({ onLogout, isPremiumUser }) => {
             // Notify user of success and update token
             alert('You are now a premium user.');
             localStorage.setItem('token', res.data.token);
+            dispatch(setPremium(true));
             // setIsPremium(true); // Update the state to reflect premium status
           } catch (error) {
             console.error('Error updating transaction:', error);
@@ -226,8 +234,18 @@ const Navbar = ({ onLogout, isPremiumUser }) => {
           <Link to="/leaderboard"><li onClick={closeNav}>Leaderboard <span className={`fa-solid fa-crown ${styles.crown_icon}`}> </span></li></Link>
         </ul>
         <ul>
+          <li onClick={() => dispatch(toggleTheme())}>
+            Switch to {theme === "light" ? "Dark" : "Light"} Mode
+          </li>
+          {/* <li class="darkMode-wrap darkMode-wrap-desktop" data-mode="Switch to Dark Mode"> */}
+          {/* <button><i class="gfg-icon gfg-icon_dark-mode"></i></button> */}
+          {/* <li class="fa-solid fa-moon"></li> */}
+          {/* <span class="darkModeTooltipText">Switch to Dark Mode</span> */}
+          {/* </li> */}
           {isPremiumUser ? (
-            <li style={{ cursor: 'not-allowed', pointerEvents: 'none' }}>You are a Premium User <span className={`fa-solid fa-crown ${styles.crown_icon}`}></span></li>
+            <>
+              <li style={{ cursor: 'not-allowed', pointerEvents: 'none' }}>You are a Premium User <span className={`fa-solid fa-crown ${styles.crown_icon}`}></span></li>
+            </>
           ) : (
             <li
               id="styles.rzp-button1"
@@ -238,7 +256,10 @@ const Navbar = ({ onLogout, isPremiumUser }) => {
               {isLoading ? 'Processing...' : 'Buy Premium'} <span className={`fa-solid fa-crown ${styles.crown_icon}`}></span>
             </li>
           )}
-          <li id="log_out" onClick={onLogout}>Logout <span className="fa-solid fa-arrow-right-from-bracket login_icon"></span></li>
+          <li id="log_out" onClick={() => {
+            dispatch(logout());
+            navigate('/');
+          }}>Logout <span className="fa-solid fa-arrow-right-from-bracket login_icon"></span></li>
         </ul>
       </div>
       {sideNavOpen && <div className={`${styles.overlay}`} onClick={closeNav}></div>}

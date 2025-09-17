@@ -18,7 +18,6 @@ exports.authenticate = async (req, res, next) => {
 
         req.user = user;
         req.userId = user._id;
-        console.log("every thing is working fine..");
         next();
     } catch (err) {
         console.log(err);

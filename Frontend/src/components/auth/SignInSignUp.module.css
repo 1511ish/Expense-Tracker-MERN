@@ -197,10 +197,6 @@ button:active {
 }
 
 @media only screen and (max-width: 768px) {
-    /* body {
-        padding: 2%;
-    } */
-
     .mainContainer {
         width: 90%;
         height: 960px;
@@ -255,9 +251,6 @@ button:active {
 }
 
 @media only screen and (max-width: 480px) {
-    /* body {
-        padding: 1%;
-    } */
 
     .mainContainer {
         width: 95%;

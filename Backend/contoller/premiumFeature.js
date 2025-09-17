@@ -3,13 +3,13 @@ const Expense = require('../models/Expense');
 const DownloadedFiles = require('../models/DownloadedUrl');
 const Awsservice = require('../services/awsservices');
 
-exports.getReportPage = (req, res, next) => {
-    res.sendFile('report.html', { root: 'views' });
-}
+// exports.getReportPage = (req, res, next) => {
+//     res.sendFile('report.html', { root: 'views' });
+// }
 
-exports.getLeaderboardPage = (req, res, next) => {
-    res.sendFile('leaderboard.html', { root: 'views' });
-}
+// exports.getLeaderboardPage = (req, res, next) => {
+//     res.sendFile('leaderboard.html', { root: 'views' });
+// }
 
 exports.getLeaderBoard = async (req, res, next) => {
     try {

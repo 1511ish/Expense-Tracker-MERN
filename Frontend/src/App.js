@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
+
 import Navbar from './components/UI/Navbar/Navbar';
 import Form from './components/Expense/Form';
 import ExpenseTable from './components/Expense/Table';
 import Leaderboard from './components/Leaderboard/LeaderBoard';
 import Report from './components/Report/Report';
 import SignInSignUp from './components/auth/SignInSignUp';
+
 import styles from './components/Expense/test.module.css';
+import { hydrateAuth } from "./context/slices/authSlice";
 
 const App = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isLoggedIn, token, isPremiumUser } = useSelector((state) => state.auth);
+  const { theme } = useSelector((state) => state.theme);
+
   const [expenses, setExpenses] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isPremiumUser, setIsPremiumUser] = useState(false);
   const [expenseToEdit, setExpenseToEdit] = useState(null);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [paginationData, setPaginationData] = useState({});
@@ -21,66 +27,51 @@ const App = () => {
 
   const getExpenses = async () => {
     try {
-      const token = localStorage.getItem('token');
-      axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/expense/get-expenses?page=${page}&pageSize=${itemsPerPage}`,
-        { headers: { 'Authorization': token } })
-        .then(({ data: { allExpenses, ...pageData } }) => {
-          setExpenses(allExpenses);
-          setPaginationData(pageData);
-        })
-        .catch((error) => console.error('Error fetching expenses:', error));
+      if (!token) return;
+      const { data: { allExpenses, ...pageData } } = await axios.get(
+        `${process.env.REACT_APP_BACKEND_BASE_URL}/expense/get-expenses?page=${page}&pageSize=${itemsPerPage}`,
+        { headers: { 'Authorization': token } }
+      );
+      setExpenses(allExpenses);
+      setPaginationData(pageData);
     } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const checkPremiumStatus = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/user/premiumstatus`, {
-        headers: { "Authorization": token }
-      });
-      setIsPremiumUser(response.data.isPremium);
-    } catch (error) {
-      console.error('Error checking premium status:', error);
+      console.error('Error fetching expenses:', e);
     }
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      getExpenses();
-    }
+    if (isLoggedIn) getExpenses();
   }, [isLoggedIn, itemsPerPage, page]);
 
+
   useEffect(() => {
-    if (isLoggedIn) {
-      checkPremiumStatus();
-    }
-  }, [isLoggedIn]);
+    dispatch(hydrateAuth());
+  }, [dispatch]);
+
 
   const lifting = async (expense) => {
-    const token = localStorage.getItem('token');
     try {
+      if (!token) return;
       if (expenseToEdit) {
-        const response = await axios.put(`${process.env.REACT_APP_BACKEND_BASE_URL}/update-expense/${expense.id}`,
-          expense, { headers: { 'Authorization': token } });
-        const edited_exp = response.data.expense;
+        const { data } = await axios.put(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/expense/update-expense/${expense.id}`,
+          expense,
+          { headers: { 'Authorization': token } }
+        );
+        const edited_exp = data.expense;
         setExpenses(expenses.map(exp => exp._id === edited_exp._id ? edited_exp : exp));
         setExpenseToEdit(null);
       } else {
-        const response = await axios.post(`${process.env.REACT_APP_BACKEND_BASE_URL}/expense/add-expense`,
-          expense, { headers: { 'Authorization': token } });
-        setExpenses([...expenses, response.data.newExpenseDetail]);
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/expense/add-expense`,
+          expense,
+          { headers: { 'Authorization': token } }
+        );
+        setExpenses([...expenses, data.newExpenseDetail]);
       }
     } catch (error) {
       console.error('Error processing expense:', error);
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    navigate('/');
   };
 
   const handlePremiumFeatureAccess = (featureName) => {
@@ -93,8 +84,8 @@ const App = () => {
     <>
       {isLoggedIn ? (
         <>
-          <Navbar onLogout={handleLogout} isPremiumUser={isPremiumUser} />
-          <div className={styles.container}>
+          <Navbar />
+          <div className={`${styles.container} ${theme === "light" ? styles.light : styles.dark}`}>
             <Routes>
               <Route path="/" element={
                 <div className={styles['main-content']}>
@@ -117,7 +108,7 @@ const App = () => {
         </>
       ) : (
         <Routes>
-          <Route path="/" element={<SignInSignUp afterLogin={(flag) => { setIsLoggedIn(flag) }} />} />
+          <Route path="/" element={<SignInSignUp />} />
         </Routes>
       )}
     </>

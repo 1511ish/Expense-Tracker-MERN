@@ -1,11 +1,6 @@
-
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-// exports.usergethomePage = (request, response, next) => {
-//     response.sendFile('test.html', { root: 'views' });
-// }
 
 function isStringInvalid(string) {
     if (string == undefined || string.length === 0)
@@ -24,6 +19,12 @@ exports.signUp = async (req, res) => {
         if (isStringInvalid(name) || isStringInvalid(password) || isStringInvalid(password)) {
             return res.status(400).json({ message: 'Bad parameters, Something is missing' })
         }
+
+        let userExist = await User.findOne({ email_Id: email });
+        if (userExist) {
+            res.status(401).json({ message: 'User already exist.' });
+        }
+
         const salt = await bcrypt.genSalt();
         bcrypt.hash(password, salt, async (err, hash) => {
             if (err) {
@@ -50,7 +51,6 @@ exports.signUp = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
-    console.log("login working.....");
     const { email, password } = req.body;
     if (isStringInvalid(email) || isStringInvalid(password)) {
         return res.status(400).json({ message: 'email or password is missing', success: false })
@@ -58,7 +58,7 @@ exports.login = async (req, res) => {
     try {
         let userExist = await User.findOne({ email_Id: email });
         if (!userExist) {
-            res.status(404).json({message:'User not found'});
+            res.status(404).json({ message: 'User not found' });
         } else {
             const isPasswordValid = await bcrypt.compare(password, userExist.password);
             if (isPasswordValid) {
@@ -67,8 +67,7 @@ exports.login = async (req, res) => {
                 message = `${userExist.name} is logged in successfully.`;
                 return res.status(200).json({ token: token, user: userExist, message: message });
             } else {
-                // response.status(401).send('Authentication failed');
-                return res.status(400).json({ success: false, message: 'Password is incorrect' });
+                return res.status(401).json({ success: false, message: 'Password is incorrect' });
             }
         }
     } catch (err) {
@@ -86,10 +85,10 @@ exports.checkStatus = async (req, res) => {
             return res.status(401).json({ success: false, message: 'No token provided' });
         }
         // Verify the token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secretkey');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_Key || 'secretkey');
 
         // Respond with the premium status
-        return res.status(200).json({ isPremium: decoded.isPremium });      
+        return res.status(200).json({ isPremium: decoded.isPremium });
     } catch (error) {
         // Catch any errors related to token verification
         console.error('Error verifying token:', error);

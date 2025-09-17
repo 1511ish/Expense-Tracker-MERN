@@ -19,6 +19,7 @@ const Form = ({ onSubmit, expenseToEdit, setItemsPerPage }) => {
     let expense = { amount, description, category };
     if (expenseToEdit) {
       expense = { ...expense, id: expenseToEdit._id };
+      console.log("edited expense: ", expense);
     }
     onSubmit(expense);
     setAmount('');

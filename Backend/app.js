@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -13,30 +12,22 @@ const premiumFeatureRoutes = require('./routes/premiumFeature');
 const passwordRoutes = require('./routes/password');
 // Custom CORS configuration
 const corsOptions = {
-    // origin: process.env.FRONTEND_BASE_URL,
     origin: '*',
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
 
 app.use(cors(corsOptions));
-app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.json());
 
-
-app.use('/signup', (req, res, next) => {
-    res.sendFile('signup2.html', { root: 'views' });
-})
 app.use('/user', userRoutes);
 app.use('/expense', expenseRoutes);
 app.use('/purchase', purchaseRoutes);
 app.use('/premium', premiumFeatureRoutes);
 app.use('/password', passwordRoutes);
-app.get('/home', (req, res) => {
-    res.sendFile('home.html', { root: 'views' });
-})
-app.get('/', (req, res) => {
-    res.sendFile('notfound.html', { root: 'views' });
+
+app.use((req, res, next) => {
+    res.status(404).json({ error: 'API route not found' });
 });
 
 

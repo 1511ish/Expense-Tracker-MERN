@@ -123,8 +123,6 @@ exports.getExpenses = (req, res, next) => {
 
 exports.deleteExpense = async (req, res, next) => {
     try {
-        console.log("Reached the delete controller function...");
-
         const user = req.user;
         const expenseId = req.params.id;
         
@@ -158,7 +156,6 @@ exports.deleteExpense = async (req, res, next) => {
 
 exports.updateExpense = async (req, res) => {
     try {
-        console.log("controller layer meint ho hai..");
         const userId = req.userId;
         const expenseId = req.params.id;
         const { amount, description, category } = req.body;
