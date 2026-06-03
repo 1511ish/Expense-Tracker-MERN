@@ -3,7 +3,6 @@ const Expense = require('../models/Expense');
 const User= require('../models/User');
 require('dotenv').config();
 
-// let userId;
 
 exports.addExpense = async (req, res, next) => {
     try {
@@ -11,27 +10,22 @@ exports.addExpense = async (req, res, next) => {
         const amount = req.body.amount;
         const description = req.body.description;
         const category = req.body.category;
+
+        if (!amount || !description || !category) {
+            return res.status(400).json({ success: false, error: "Amount, description and category are required." });
+        }
+
         const date = new Date().toISOString().split('T')[0];
-        let newExpenseDetail;
-        
-        const expense = new Expense({ amount: amount, description: description, category: category, userId: user , date: date});
-        expense.save()
-            .then(result => {
-                newExpenseDetail = result;
-                user.totalexpenses = user.totalexpenses + parseInt(amount)
-                user.save()
-            })
-            .then(result2 => {
-                res.status(201).json({ newExpenseDetail: newExpenseDetail});
-                console.log('SUCCESSFULLY ADDED');
-            })
-            .catch(err => {
-                console.log(err);
-                throw err;
-            })
+
+        const expense = new Expense({ amount, description, category, userId: user, date });
+        const newExpenseDetail = await expense.save();   
+
+        user.totalexpenses = user.totalexpenses + parseInt(amount);
+        await user.save();                               
+
+        res.status(201).json({ newExpenseDetail });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ success: false, error: err })
+        res.status(500).json({ success: false, error: err.message }); 
     }
 }
 

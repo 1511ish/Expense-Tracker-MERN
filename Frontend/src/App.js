@@ -9,6 +9,7 @@ import ExpenseTable from './components/Expense/Table';
 import Leaderboard from './components/Leaderboard/LeaderBoard';
 import Report from './components/Report/Report';
 import SignInSignUp from './components/auth/SignInSignUp';
+import ErrorModal from "./components/modal/ErrorModal";
 
 import styles from './components/Expense/test.module.css';
 import { hydrateAuth } from "./context/slices/authSlice";
@@ -24,6 +25,7 @@ const App = () => {
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [paginationData, setPaginationData] = useState({});
   const [page, setPage] = useState(1);
+  const [errorMsg, setErrorMsg] = useState(false);
 
   const getExpenses = async () => {
     try {
@@ -70,7 +72,7 @@ const App = () => {
         setExpenses([...expenses, data.newExpenseDetail]);
       }
     } catch (error) {
-      console.error('Error processing expense:', error);
+      setErrorMsg(error.response.data.error);
     }
   };
 
@@ -105,6 +107,12 @@ const App = () => {
               <Route path="/leaderboard" element={isPremiumUser ? <Leaderboard /> : handlePremiumFeatureAccess('Leaderboard')} />
             </Routes>
           </div>
+
+          {errorMsg && (
+            <>
+              <ErrorModal message={errorMsg} onClose={() => setErrorMsg("")} />
+            </>
+          )}
         </>
       ) : (
         <Routes>

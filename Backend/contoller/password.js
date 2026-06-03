@@ -137,28 +137,25 @@ exports.updatePassword = async (req, res, next) => {
         const newPassword = req.body.newpassword;
 
         const forgotReq = await ForgotPasswordRequest.findById(forgotPassId);
-        const user = await User.findById(forgotReq.userId);
-        if (user) {
-            const hashedPassword = bcrypt.hash(newPassword, 10);
-            user.password = hashedPassword;
-            const promise1 = user.save();
-            forgotReq.isActive = false;
-            const promise2 = forgotReq.save();
-
-            Promise.all([promise1, promise2])
-                .then(() => {
-                    return res.status(201).json({ message: 'Successfuly update the new password' })
-                })
-                .catch((err) => {
-                    console.log(err)
-                    throw new Error('Could not change the user password!')
-                })
-        } else {
-            throw new Error("User doesn't exist!")
+        if (!forgotReq || !forgotReq.isActive) {
+            throw new Error("Invalid or expired reset link!");
         }
-    } catch (err) {
-        console.log(err)
-        res.status(403).json({ message: err })
-    }
 
+        const user = await User.findById(forgotReq.userId);
+        if (!user) {
+            throw new Error("User doesn't exist!");
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10); 
+        user.password = hashedPassword;
+        forgotReq.isActive = false;
+
+        await Promise.all([user.save(), forgotReq.save()]); 
+
+        return res.status(201).json({ message: 'Successfully updated the new password' });
+
+    } catch (err) {
+        console.log(err);
+        res.status(403).json({ message: err.message });
+    }
 }
